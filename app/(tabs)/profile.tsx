@@ -8,19 +8,19 @@ import { ThemedView } from "@/components/ThemedView";
 import { IconSymbol } from "@/components/ui/IconSymbol";
 import { useRouter } from "expo-router";
 
-export default function HomeScreen() {
+export default function ProfileScreen() {
   const router = useRouter();
 
-  const handlePets = () => {
+  const handleLogin = () => {
     // Handle login action here
     console.log("Login pressed");
-    router.push("/adoptions/pets");
+    router.push("/auth/login");
   };
 
-  const handleServices = () => {
+  const handleRegister = () => {
     // Handle register action here
     console.log("Register pressed");
-    router.push("/services/services");
+    router.push("/auth/register");
   };
 
   return (
@@ -36,7 +36,7 @@ export default function HomeScreen() {
       }
     >
       <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Home</ThemedText>
+        <ThemedText type="title">Profile</ThemedText>
       </ThemedView>
       <ThemedText>
         This app includes example code to help you get started.
@@ -44,11 +44,11 @@ export default function HomeScreen() {
 
       {/* Custom Login and Register Buttons */}
       <ThemedView style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button} onPress={handlePets}>
-          <Text style={styles.buttonText}>Pets</Text>
+        <TouchableOpacity style={styles.button} onPress={handleLogin}>
+          <Text style={styles.buttonText}>Login</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={handleServices}>
-          <Text style={styles.buttonText}>Services</Text>
+        <TouchableOpacity style={styles.button} onPress={handleRegister}>
+          <Text style={styles.buttonText}>Register</Text>
         </TouchableOpacity>
       </ThemedView>
     </ParallaxScrollView>
