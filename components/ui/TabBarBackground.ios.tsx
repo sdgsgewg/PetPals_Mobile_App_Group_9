@@ -20,3 +20,5 @@ export function useBottomTabOverflow() {
   const { bottom } = useSafeAreaInsets();
   return tabHeight - bottom;
 }
+
+export default BlurTabBarBackground;

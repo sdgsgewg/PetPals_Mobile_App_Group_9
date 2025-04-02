@@ -32,7 +32,7 @@ export function ThemedText({
     />
   );
 }
-
+export default ThemedTextProps;
 const styles = StyleSheet.create({
   default: {
     fontSize: 16,

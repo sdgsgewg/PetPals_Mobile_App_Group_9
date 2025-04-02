@@ -22,3 +22,4 @@ export function ExternalLink({ href, ...rest }: Props) {
     />
   );
 }
+export default ExternalLink;
