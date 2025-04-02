@@ -1,3 +1,4 @@
+// UserReducer.ts
 import { IRole } from "@/app/interface/user/IRole";
 import { IUser } from "@/app/interface/user/IUser";
 import { GlobalAction, GlobalActionType } from "../GlobalActions";
@@ -33,11 +34,11 @@ export const initialState: UserState = {
     Phone: "",
     Address: "",
     City: "",
-    RoleId: "",
+    RoleId: 0,
   },
 };
 
-export function UsersReducer(state: UserState, action: GlobalAction) {
+ export function UsersReducer(state: UserState, action: GlobalAction): UserState {
   switch (action.type) {
     case GlobalActionType.SET_USER_REGISTER:
       return {
@@ -50,15 +51,7 @@ export function UsersReducer(state: UserState, action: GlobalAction) {
     case GlobalActionType.RESET_USER_REGISTER:
       return {
         ...state,
-        userRegister: {
-          name: "",
-          email: "",
-          password: "",
-          phone: "",
-          address: "",
-          city: "",
-          roleId: 0,
-        },
+        userRegister: initialState.userRegister,
       };
     case GlobalActionType.SET_USER_LOGIN:
       return {
@@ -71,10 +64,7 @@ export function UsersReducer(state: UserState, action: GlobalAction) {
     case GlobalActionType.RESET_USER_LOGIN:
       return {
         ...state,
-        userLogin: {
-          email: "",
-          password: "",
-        },
+        userLogin: initialState.userLogin,
       };
     case GlobalActionType.LOGIN_USER:
       return {
@@ -101,15 +91,7 @@ export function UsersReducer(state: UserState, action: GlobalAction) {
     case GlobalActionType.RESET_REGISTER_ERROR_MESSAGES:
       return {
         ...state,
-        registerErrorMessages: {
-          Name: "",
-          Email: "",
-          Password: "",
-          Phone: "",
-          Address: "",
-          City: "",
-          RoleId: "",
-        },
+        registerErrorMessages: initialState.registerErrorMessages,
       };
     case GlobalActionType.GET_LOGGED_IN_USER:
       return {
@@ -131,3 +113,5 @@ export function UsersReducer(state: UserState, action: GlobalAction) {
       return state;
   }
 }
+
+export default UsersReducer;

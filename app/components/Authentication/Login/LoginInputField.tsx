@@ -5,7 +5,7 @@ import { TextInput, View, Text, StyleSheet } from "react-native";
 const LoginInputField = () => {
   const { userLogin, setUserLogin } = useUsers();
 
-  const handleInputChange = (name, value) => {
+  const handleInputChange = (name: string, value: string) => {
     setUserLogin(name, value);
   };
 
@@ -15,7 +15,6 @@ const LoginInputField = () => {
         <Text style={styles.label}>Email</Text>
         <TextInput
           style={styles.input}
-          name="email"
           placeholder="Email"
           value={userLogin.email}
           onChangeText={(text) => handleInputChange("email", text)}
@@ -28,7 +27,6 @@ const LoginInputField = () => {
         <Text style={styles.label}>Password</Text>
         <TextInput
           style={styles.input}
-          name="password"
           placeholder="Password"
           value={userLogin.password}
           onChangeText={(text) => handleInputChange("password", text)}
@@ -38,6 +36,7 @@ const LoginInputField = () => {
     </View>
   );
 };
+
 
 const styles = StyleSheet.create({
   inputContainer: {

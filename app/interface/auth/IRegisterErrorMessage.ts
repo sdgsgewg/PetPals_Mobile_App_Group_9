@@ -5,5 +5,5 @@ export interface IRegisterErrorMessage {
   Phone: string;
   Address: string;
   City: string;
-  RoleId: string;
+  RoleId: number;
 }
