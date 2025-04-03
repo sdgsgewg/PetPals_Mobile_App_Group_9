@@ -1,4 +1,4 @@
-import IService from "@/app/interface/service/IService";
+import { IService } from "@/app/interface/service/IService";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
 import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
@@ -6,6 +6,8 @@ import React from "react";
 import { useNavigation } from "@react-navigation/native";
 import CardLayout from "../Cards/CardLayout";
 import { useGlobal } from "@/app/context/GlobalContext";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { RootStackParamList } from "./RootStackParamList";
 
 interface ServiceCardProps {
   service: IService;
@@ -13,24 +15,22 @@ interface ServiceCardProps {
 
 const ServiceCard: React.FC<ServiceCardProps> = ({ service }) => {
   const { getImageUrlByServiceCategory, formattedPrice } = useGlobal();
-  const navigation = useNavigation();
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, 'ServiceDetail'>>();
 
   return (
     <TouchableOpacity
-      onPress={() =>
-        navigation.navigate("ServiceDetail", { slug: service.slug })
-      }
+      onPress={() => navigation.navigate("ServiceDetail", { slug: service.slug })}
     >
       <CardLayout>
         <View style={styles.imageContainer}>
           <Image
-            source={{ uri: getImageUrlByServiceCategory(service.categoryName) }}
+            source={{ uri: getImageUrlByServiceCategory(service.name) }}
             style={styles.image}
           />
         </View>
         <View style={styles.contentContainer}>
           <View>
-            <Text style={styles.categoryText}>{service.categoryName}</Text>
+            <Text style={styles.categoryText}>{service.name}</Text>
             <Text style={styles.nameText}>{service.name}</Text>
             <View style={styles.locationContainer}>
               <FontAwesomeIcon

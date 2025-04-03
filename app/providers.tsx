@@ -4,7 +4,7 @@ import { PetsProvider } from "./context/pets/PetsContext";
 import { ServicesProvider } from "./context/services/ServicesContext";
 import { GlobalProvider } from "./context/GlobalContext";
 import { AdoptionsProvider } from "./context/adoptions/AdoptionsContext";
-import { ForumsProvider } from "./context/forums/ForumsContext";
+import { ForumProvider } from "./context/forums/ForumsContext";
 import { TransactionsProvider } from "./context/transactions/TransactionsContext";
 import { UsersProvider } from "./context/users/UsersContext";
 
@@ -16,7 +16,7 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
           <AdoptionsProvider>
             <ServicesProvider>
               <TransactionsProvider>
-                <ForumsProvider>{children}</ForumsProvider>
+                <ForumProvider>{children}</ForumProvider>
               </TransactionsProvider>
             </ServicesProvider>
           </AdoptionsProvider>
