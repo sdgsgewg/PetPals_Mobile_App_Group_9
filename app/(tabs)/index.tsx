@@ -7,9 +7,12 @@ import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { IconSymbol } from "@/components/ui/IconSymbol";
 import { useRouter } from "expo-router";
+import { useUsers } from "../context/users/UsersContext";
 
 export default function HomeScreen() {
   const router = useRouter();
+
+  const { isLoggedIn, loggedInUser } = useUsers();
 
   const handlePets = () => {
     // Handle login action here
@@ -38,9 +41,11 @@ export default function HomeScreen() {
       <ThemedView style={styles.titleContainer}>
         <ThemedText type="title">Home</ThemedText>
       </ThemedView>
-      <ThemedText>
-        This app includes example code to help you get started.
-      </ThemedText>
+      {isLoggedIn ? (
+        <ThemedText>{`Welcome back, ${loggedInUser.name}`}</ThemedText>
+      ) : (
+        <ThemedText>Home Page.</ThemedText>
+      )}
 
       {/* Custom Login and Register Buttons */}
       <ThemedView style={styles.buttonContainer}>

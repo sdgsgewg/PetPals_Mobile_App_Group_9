@@ -1,16 +1,24 @@
-// app/auth/register.tsx
 import React from "react";
-import { View, Text } from "react-native";
+import { ScrollView, Text, View } from "react-native";
 import AuthForm from "../components/Authentication/AuthForm";
+import AuthLayout from "./layout";
 
 const Register = () => {
   return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Text style={{ fontSize: 24, fontWeight: "bold", marginBottom: 20 }}>
-        Register
-      </Text>
-      <AuthForm authType="Register" />
-    </View>
+    <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+      <AuthLayout>
+        <View
+          style={{
+            flex: 1,
+            justifyContent: "center",
+            alignItems: "center",
+            paddingVertical: 50,
+          }}
+        >
+          <AuthForm authType="Register" />
+        </View>
+      </AuthLayout>
+    </ScrollView>
   );
 };
 

@@ -7,20 +7,24 @@ import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { IconSymbol } from "@/components/ui/IconSymbol";
 import { useRouter } from "expo-router";
+import { useUsers } from "../context/users/UsersContext";
 
 export default function ProfileScreen() {
   const router = useRouter();
 
+  const { isLoggedIn, loggedInUser, logoutUser } = useUsers();
+
   const handleLogin = () => {
-    // Handle login action here
-    console.log("Login pressed");
     router.push("/auth/login");
   };
 
   const handleRegister = () => {
-    // Handle register action here
-    console.log("Register pressed");
     router.push("/auth/register");
+  };
+
+  const handleLogout = () => {
+    logoutUser();
+    router.push("/");
   };
 
   return (
@@ -44,12 +48,20 @@ export default function ProfileScreen() {
 
       {/* Custom Login and Register Buttons */}
       <ThemedView style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button} onPress={handleLogin}>
-          <Text style={styles.buttonText}>Login</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={handleRegister}>
-          <Text style={styles.buttonText}>Register</Text>
-        </TouchableOpacity>
+        {isLoggedIn ? (
+          <TouchableOpacity style={styles.button} onPress={handleLogout}>
+            <Text style={styles.buttonText}>Logout</Text>
+          </TouchableOpacity>
+        ) : (
+          <>
+            <TouchableOpacity style={styles.button} onPress={handleLogin}>
+              <Text style={styles.buttonText}>Login</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.button} onPress={handleRegister}>
+              <Text style={styles.buttonText}>Register</Text>
+            </TouchableOpacity>
+          </>
+        )}
       </ThemedView>
     </ParallaxScrollView>
   );

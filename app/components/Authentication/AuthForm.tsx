@@ -1,15 +1,15 @@
 import React from "react";
 import {
+  ScrollView,
   View,
   Text,
-  TextInput,
   TouchableOpacity,
   StyleSheet,
 } from "react-native";
-import { useUsers } from "@/app/context/users/UsersContext";
 import RegisterInputField from "./Register/RegisterInputField";
 import LoginInputField from "./Login/LoginInputField";
 import { useRouter } from "expo-router";
+import { useUsers } from "@/app/context/users/UsersContext";
 
 interface AuthFormProps {
   authType: string;
@@ -17,42 +17,49 @@ interface AuthFormProps {
 
 const AuthForm: React.FC<AuthFormProps> = ({ authType }) => {
   const userContext = useUsers();
-
   const router = useRouter();
 
   const authFunction =
     authType === "Login" ? userContext.loginUser : userContext.registerUser;
 
   return (
-    <View style={styles.formContainer}>
-      <Text style={styles.title}>{authType}</Text>
-      <View>
-        {authType === "Login" ? <LoginInputField /> : <RegisterInputField />}
-        <TouchableOpacity style={styles.button} onPress={authFunction}>
-          <Text style={styles.buttonText}>{authType}</Text>
-        </TouchableOpacity>
+    <ScrollView contentContainerStyle={styles.scrollContainer}>
+      <View style={styles.formContainer}>
+        <Text style={styles.title}>{authType}</Text>
+        <View>
+          {authType === "Login" ? <LoginInputField /> : <RegisterInputField />}
+          <TouchableOpacity style={styles.button} onPress={authFunction}>
+            <Text style={styles.buttonText}>{authType}</Text>
+          </TouchableOpacity>
 
-        <Text style={styles.linkText}>
-          {authType === "Login"
-            ? "Don't have an account?"
-            : "Already have an account?"}{" "}
-          <Text
-            style={styles.link}
-            onPress={() => {
-              authType === "Login"
-                ? router.push("/auth/login")
-                : router.push("/auth/register");
-            }}
-          >
-            {authType === "Login" ? "Register here" : "Login here"}
+          <Text style={styles.linkText}>
+            {authType === "Login"
+              ? "Don't have an account?"
+              : "Already have an account?"}{" "}
+            <Text
+              style={styles.link}
+              onPress={() => {
+                authType === "Login"
+                  ? router.push("/auth/login")
+                  : router.push("/auth/register");
+              }}
+            >
+              {authType === "Login" ? "Register here" : "Login here"}
+            </Text>
           </Text>
-        </Text>
+        </View>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
+  scrollContainer: {
+    flexGrow: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    paddingVertical: 50,
+  },
   formContainer: {
     width: "80%",
     padding: 16,

@@ -5,34 +5,51 @@ import { IRole } from "@/app/interface/user/IRole";
 import { ISpecies } from "@/app/interface/pet/ISpecies";
 import { IServiceCategory } from "@/app/interface/service/IServiceCategory";
 
-interface SelectFieldProps<T> {
+interface SelectFieldProps {
   label: string;
   name: string;
   value: number;
   onChange: (value: number) => void;
-  options: T[];
+  options: IRole[] | ISpecies[] | IServiceCategory[];
   error?: string;
-  getOptionKey: (option: T) => number;
-  getOptionLabel: (option: T) => string;
 }
 
-const SelectField = <T,>({
+const SelectField: React.FC<SelectFieldProps> = ({
   label,
+  name,
   value,
   onChange,
   options,
   error,
-  getOptionKey,
-  getOptionLabel,
-}: SelectFieldProps<T>) => {
+}) => {
   return (
     <View style={styles.container}>
       <Text style={styles.label}>{label}</Text>
       <View style={styles.pickerContainer}>
-        <Picker selectedValue={value} onValueChange={onChange} style={styles.picker}>
+        <Picker
+          selectedValue={value}
+          onValueChange={onChange}
+          style={styles.picker}
+        >
           <Picker.Item label={`Select a ${label}`} value={0} />
           {options.map((option) => (
-            <Picker.Item key={getOptionKey(option)} label={getOptionLabel(option)} value={getOptionKey(option)} />
+            <Picker.Item
+              key={
+                label === "Role"
+                  ? option.roleId
+                  : label === "Species"
+                  ? option.speciesId
+                  : option.categoryId
+              }
+              label={option.name}
+              value={
+                label === "Role"
+                  ? option.roleId
+                  : label === "Species"
+                  ? option.speciesId
+                  : option.categoryId
+              }
+            />
           ))}
         </Picker>
       </View>
@@ -40,43 +57,6 @@ const SelectField = <T,>({
     </View>
   );
 };
-
-// Usage Example
-const roleSelectField = (
-  <SelectField<IRole>
-    label="Role"
-    name="role"
-    value={1}
-    onChange={(value) => console.log(value)}
-    options={[{ roleId: 1, name: "Admin" }]}
-    getOptionKey={(option) => option.roleId}
-    getOptionLabel={(option) => option.name}
-  />
-);
-
-const speciesSelectField = (
-  <SelectField<ISpecies>
-    label="Species"
-    name="species"
-    value={2}
-    onChange={(value) => console.log(value)}
-    options={[{ speciesId: 2, name: "Dog", slug: "dog", description: "", image: "" }]}
-    getOptionKey={(option) => option.speciesId}
-    getOptionLabel={(option) => option.name}
-  />
-);
-
-const serviceCategorySelectField = (
-  <SelectField<IServiceCategory>
-    label="Category"
-    name="category"
-    value={3}
-    onChange={(value) => console.log(value)}
-    options={[{ categoryId: 3, name: "Grooming" }]}
-    getOptionKey={(option) => option.categoryId}
-    getOptionLabel={(option) => option.name}
-  />
-);
 
 const styles = StyleSheet.create({
   container: {
