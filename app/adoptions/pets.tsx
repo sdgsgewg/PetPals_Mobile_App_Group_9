@@ -1,22 +1,50 @@
 import {
   Image,
   StyleSheet,
-  Platform,
   FlatList,
   ActivityIndicator,
   View,
 } from "react-native";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import ParallaxScrollView from "@/components/ParallaxScrollView";
-import { usePets } from "../context/pets/PetsContext";
 
-export default function Pets() {
-  const { pets, fetchPets, loading, error } = usePets();
+interface INewPet {
+  petId?: number;
+  name: string;
+  breed: string;
+  age: number;
+  gender: string;
+  speciesId: number;
+  description: string;
+  price: number;
+  imageUrl?: string;
+  ownerId: number;
+}
+
+export default function AdoptionList() {
+  const [pets, setPets] = useState<INewPet[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetchPets();
+    const fetchAdoptionList = async () => {
+      try {
+        const response = await fetch("https://localhost:7249/api/v1/adoption-list");
+        if (!response.ok) {
+          throw new Error("Failed to fetch adoption list");
+        }
+        const data: INewPet[] = await response.json();
+        setPets(data);
+      } catch (err) {
+        setError((err as Error).message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchAdoptionList();
   }, []);
 
   return (
@@ -30,22 +58,31 @@ export default function Pets() {
       }
     >
       <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Daftar Hewan Peliharaan</ThemedText>
+        <ThemedText type="title">Daftar Hewan untuk Adopsi</ThemedText>
       </ThemedView>
+
       {loading ? (
         <ActivityIndicator size="large" color="#0000ff" />
       ) : error ? (
-        <ThemedText type="error">{error}</ThemedText>
+        <ThemedText type="default">{error}</ThemedText>
       ) : (
         <FlatList
           data={pets}
-          keyExtractor={(item) => item.petId.toString()}
+          keyExtractor={(item) => (item.petId ? item.petId.toString() : Math.random().toString())}
           renderItem={({ item }) => (
             <ThemedView style={styles.petCard}>
-              {/* <Image source={{ uri: item.image }} style={styles.petImage} /> */}
+              {item.imageUrl ? (
+                <Image source={{ uri: item.imageUrl }} style={styles.petImage} />
+              ) : (
+                <View style={styles.imagePlaceholder}>
+                  <ThemedText>No Image</ThemedText>
+                </View>
+              )}
               <ThemedText type="subtitle">{item.name}</ThemedText>
-              <ThemedText>{item.species.name}</ThemedText>
+              <ThemedText>{item.breed}</ThemedText>
+              <ThemedText>Gender: {item.gender}</ThemedText>
               <ThemedText>Umur: {item.age} tahun</ThemedText>
+              <ThemedText>Harga: Rp {item.price.toLocaleString()}</ThemedText>
             </ThemedView>
           )}
         />
@@ -73,6 +110,14 @@ const styles = StyleSheet.create({
   petImage: {
     width: 100,
     height: 100,
+    borderRadius: 8,
+  },
+  imagePlaceholder: {
+    width: 100,
+    height: 100,
+    backgroundColor: "#ddd",
+    justifyContent: "center",
+    alignItems: "center",
     borderRadius: 8,
   },
   reactLogo: {
